@@ -7,6 +7,7 @@ import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodObjec
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPageDTO;
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPagingDTO;
 import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.retry.Retry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -34,7 +35,8 @@ class FundaAanbodApiClientTest {
         client = new FundaAanbodApiClient(
                 new FundaAanbodApiClientConfig(wireMockRuntimeInfo.getHttpBaseUrl(), API_KEY),
                 WebClient.builder(),
-                Mockito.mock(RateLimiter.class)
+                Mockito.mock(RateLimiter.class),
+                Mockito.mock(Retry.class)
         );
     }
 
