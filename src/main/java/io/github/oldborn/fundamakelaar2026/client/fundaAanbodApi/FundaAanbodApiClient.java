@@ -2,15 +2,22 @@ package io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi;
 
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPageDTO;
 import io.github.oldborn.fundamakelaar2026.config.FundaAanbodApiClientConfig;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.github.resilience4j.reactor.ratelimiter.operator.RateLimiterOperator;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 @Component
 public class FundaAanbodApiClient {
     private final WebClient webClient;
+
+    private final RateLimiter rateLimiter;
 
     public FundaAanbodApiClient(
             FundaAanbodApiClientConfig fundaAanbodApiClientConfig,
@@ -24,6 +31,15 @@ public class FundaAanbodApiClient {
         this.webClient = webClientBuilder.baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .build();
+
+        this.rateLimiter = RateLimiter.of(
+                "funda-api-rate-limiter",
+                RateLimiterConfig.custom()
+                        .limitRefreshPeriod(Duration.ofSeconds(65))
+                        .limitForPeriod(10)
+                        .timeoutDuration(Duration.ofSeconds(67))
+                        .build()
+        );
     }
 
     public Mono<AanbodPageDTO> fetchPage(int page, int pageSize){
@@ -36,6 +52,7 @@ public class FundaAanbodApiClient {
                         .build()
                 )
                 .retrieve()
-                .bodyToMono(AanbodPageDTO.class);
+                .bodyToMono(AanbodPageDTO.class)
+                .transformDeferred(RateLimiterOperator.of(rateLimiter));
     }
 }
