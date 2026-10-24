@@ -1,4 +1,4 @@
-package io.github.oldborn.fundamakelaar2026.config;
+package io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

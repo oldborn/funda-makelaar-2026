@@ -1,7 +1,6 @@
 package io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi;
 
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPageDTO;
-import io.github.oldborn.fundamakelaar2026.config.FundaAanbodApiClientConfig;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.reactor.ratelimiter.operator.RateLimiterOperator;
