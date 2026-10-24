@@ -1,12 +1,13 @@
 package io.github.oldborn.fundamakelaar2026;
 
-import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.FundaAanbodApiClientConfig;
+import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.config.FundaAanbodApiClientConfig;
+import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.config.ResilienceRateLimiterConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties(FundaAanbodApiClientConfig.class)
+@EnableConfigurationProperties({FundaAanbodApiClientConfig.class, ResilienceRateLimiterConfig.class})
 public class FundaMakelaar2026Application {
 
     public static void main(String[] args) {

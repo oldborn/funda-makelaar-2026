@@ -2,11 +2,14 @@ package io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.config.FundaAanbodApiClientConfig;
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodObjectDTO;
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPageDTO;
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPagingDTO;
+import io.github.resilience4j.ratelimiter.RateLimiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -30,7 +33,8 @@ class FundaAanbodApiClientTest {
         this.fixture = new ClassPathResource("fixtures/funda-aanbod-api-response.json").getContentAsString(UTF_8);
         client = new FundaAanbodApiClient(
                 new FundaAanbodApiClientConfig(wireMockRuntimeInfo.getHttpBaseUrl(), API_KEY),
-                WebClient.builder()
+                WebClient.builder(),
+                Mockito.mock(RateLimiter.class)
         );
     }
 

@@ -1,9 +1,9 @@
 package io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi;
 
+import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.config.FundaAanbodApiClientConfig;
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPageDTO;
 import io.github.resilience4j.core.IntervalFunction;
 import io.github.resilience4j.ratelimiter.RateLimiter;
-import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.reactor.ratelimiter.operator.RateLimiterOperator;
 import io.github.resilience4j.reactor.retry.RetryOperator;
 import io.github.resilience4j.retry.Retry;
@@ -34,7 +34,8 @@ public class FundaAanbodApiClient {
 
     public FundaAanbodApiClient(
             FundaAanbodApiClientConfig fundaAanbodApiClientConfig,
-            WebClient.Builder webClientBuilder
+            WebClient.Builder webClientBuilder,
+            RateLimiter rateLimiter
     ) {
         String baseUrl = String.format(
                 "%s/%s/",
@@ -45,14 +46,7 @@ public class FundaAanbodApiClient {
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
-        this.rateLimiter = RateLimiter.of(
-                "funda-api-rate-limiter",
-                RateLimiterConfig.custom()
-                        .limitRefreshPeriod(Duration.ofSeconds(65))
-                        .limitForPeriod(100)
-                        .timeoutDuration(Duration.ofSeconds(67))
-                        .build()
-        );
+        this.rateLimiter = rateLimiter;
 
         this.retry = Retry.of(
                 "funda-api-retry",
