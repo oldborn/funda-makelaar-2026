@@ -1,0 +1,51 @@
+{
+  "AccountStatus": 0,
+  "EmailNotConfirmed": false,
+  "ValidationFailed": false,
+  "ValidationReport": null,
+  "Website": 0,
+  "Metadata": {
+    "ObjectType": "Koopwoningen",
+    "Omschrijving": "Koopwoningen > Amsterdam",
+    "Titel": "Huizen te koop in Amsterdam"
+  },
+  "Objects": [
+    {
+      "Adres": "Karspeldreef 216-1",
+      "GlobalId": 7855354,
+      "Id": "a99813e5-cf01-49bf-8260-56ece054f859",
+      "IsSearchable": true,
+      "IsVerhuurd": false,
+      "IsVerkocht": false,
+      "KoopprijsTot": 950000,
+      "MakelaarId": 24585,
+      "MakelaarNaam": "Bert van Vulpen makelaars + hypotheken Amstelveen",
+      "Postcode": "1102FA",
+      "URL": "http://www.funda.nl/koop/amsterdam/huis-43200717-karspeldreef-216-1/",
+      "VerkoopStatus": "StatusBeschikbaar",
+      "Woonplaats": "Amsterdam"
+    },
+    {
+      "Adres": "Amstelveenseweg 182-3",
+      "GlobalId": 7834844,
+      "Id": "9ddd5cc7-fabd-420a-abb0-3bb447cb169e",
+      "IsSearchable": true,
+      "IsVerhuurd": false,
+      "IsVerkocht": false,
+      "KoopprijsTot": 4400000,
+      "MakelaarId": 24633,
+      "MakelaarNaam": "DAMSTAD",
+      "Postcode": "1075MJ",
+      "URL": "http://www.funda.nl/koop/amsterdam/huis-43289207-amstelveenseweg-182-3/",
+      "VerkoopStatus": "StatusBeschikbaar",
+      "Woonplaats": "Amsterdam"
+    }
+  ],
+  "Paging": {
+    "AantalPaginas": 29,
+    "HuidigePagina": 1,
+    "VolgendeUrl": "/~/koop/amsterdam/tuin/p2/",
+    "VorigeUrl": null
+  },
+  "TotaalAantalObjecten": 702
+}

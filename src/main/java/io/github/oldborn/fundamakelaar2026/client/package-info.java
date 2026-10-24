@@ -1,0 +1,1 @@
+package io.github.oldborn.fundamakelaar2026.client;

@@ -1,3 +1,7 @@
 spring:
   application:
     name: funda-makelaar-2026
+
+funda-aanbod-api-client:
+  api-key: ${FUNDA_AANBOD_API_KEY}
+  base-url: "https://candidate-excercise.funda.io/feeds/Aanbod.svc/json"
