@@ -18,7 +18,7 @@ public class OfferCollectorService {
 
     private final FundaAanbodApiClient fundaAanbodApiClient;
 
-    private static final int PAGE_SIZE = 25;
+    private static final int PAGE_SIZE = 100;
 
     public OfferCollectorService(FundaAanbodApiClient fundaAanbodApiClient) {
         this.fundaAanbodApiClient = fundaAanbodApiClient;

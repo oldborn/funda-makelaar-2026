@@ -1,7 +1,9 @@
 package io.github.oldborn.fundamakelaar2026.shell;
 
 import io.github.oldborn.fundamakelaar2026.service.OfferCollectorService;
+import io.github.oldborn.fundamakelaar2026.service.RealtorRankingService;
 import io.github.oldborn.fundamakelaar2026.service.model.Offer;
+import io.github.oldborn.fundamakelaar2026.service.model.Realtor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.shell.core.command.annotation.Command;
@@ -16,14 +18,17 @@ public class FundaMakelaarCommands {
     private static final Logger logger = LoggerFactory.getLogger(FundaMakelaarCommands.class);
 
     private final OfferCollectorService offerCollectorService;
+    private final RealtorRankingService realtorRankingService;
 
-    public FundaMakelaarCommands(OfferCollectorService offerCollectorService) {
+    public FundaMakelaarCommands(OfferCollectorService offerCollectorService, RealtorRankingService realtorRankingService) {
         this.offerCollectorService = offerCollectorService;
+        this.realtorRankingService = realtorRankingService;
     }
 
     @Command(name = "test-collector", description = "used for testing collector service")
     public String testCollectorService(){
         List<Offer> offers = offerCollectorService.collectAllOffers();
+        List<Realtor> realtors = realtorRankingService.topRealtors(offers, 10);
         return "ok";
     }
 }
