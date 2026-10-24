@@ -41,7 +41,7 @@ class OfferCollectorServiceTest {
         when(fundaAanbodApiClient.fetchPage(1, 25, "amsterdam", null)).thenReturn(Mono.just(firstPage));
         when(fundaAanbodApiClient.fetchPage(2, 25, "amsterdam", null)).thenReturn(Mono.just(secondPage));
 
-        List<Offer> offers = offerCollectorService.collectAllOffers();
+        List<Offer> offers = offerCollectorService.collectAllOffers("amsterdam", null);
 
         Offer expectedOffer1 = new Offer(
                 "a99813e5-cf01-49bf-8260-56ece054f859",

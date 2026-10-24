@@ -4,6 +4,7 @@ import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.FundaAanbodApiC
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodObjectDTO;
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPageDTO;
 import io.github.oldborn.fundamakelaar2026.service.model.Offer;
+import jakarta.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,15 +25,15 @@ public class OfferCollectorService {
         this.fundaAanbodApiClient = fundaAanbodApiClient;
     }
     
-    public List<Offer> collectAllOffers(){
-        AanbodPageDTO firstPage = fundaAanbodApiClient.fetchPage(1, PAGE_SIZE, "amsterdam", null).block();
+    public List<Offer> collectAllOffers(String city, @Nullable String filter){
+        AanbodPageDTO firstPage = fundaAanbodApiClient.fetchPage(1, PAGE_SIZE, city, filter).block();
         int totalPages = firstPage.paging().aantalPaginas();
 
         // using Map instead of List to avoid duplicated offers in between pages.
         Map<String, Offer> offers = new HashMap<>(firstPage.totaalAantalObjecten());
         offers.putAll(extractOffersFromPage(firstPage));
         for (int i = 2; i <= totalPages; i++) {
-            AanbodPageDTO page = fundaAanbodApiClient.fetchPage(i, PAGE_SIZE, "amsterdam", null).block();
+            AanbodPageDTO page = fundaAanbodApiClient.fetchPage(i, PAGE_SIZE, city, filter).block();
             logger.info("Fetched page: {}/{} with number of offers: {}", i, totalPages, page.objects().size());
             offers.putAll(extractOffersFromPage(page));
         }
