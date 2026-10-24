@@ -30,7 +30,10 @@ class OfferCollectorServiceTest {
         );
 
         AanbodPageDTO secondPage = new AanbodPageDTO(
-                List.of(createPartialAanbodObject("9ddd5cc7-fabd-420a-abb0-3bb447cb169e", 24633, "Frank")),
+                List.of(
+                        createPartialAanbodObject("9ddd5cc7-fabd-420a-abb0-3bb447cb169e", 24633, "Frank"),
+                        createPartialAanbodObject("a99813e5-cf01-49bf-8260-56ece054f859", 24585, "Bernard")
+                ),
                 new AanbodPagingDTO(2, 1, "/~/koop/amsterdam/tuin/p2/", null),
                 702
         );
