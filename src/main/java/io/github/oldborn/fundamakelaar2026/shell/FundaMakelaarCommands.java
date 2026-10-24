@@ -11,6 +11,7 @@ import org.springframework.shell.core.command.annotation.CommandGroup;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @CommandGroup(name = "funda-makelaar", description = "commands to test and execute services")
@@ -29,6 +30,7 @@ public class FundaMakelaarCommands {
     public String testCollectorService(){
         List<Offer> offers = offerCollectorService.collectAllOffers();
         List<Realtor> realtors = realtorRankingService.topRealtors(offers, 10);
-        return "ok";
+        return realtors.stream()
+                .map(realtor -> String.format("%s\t%s\t%d", realtor.id(), realtor.name(), realtor.numberOfOffers())).collect(Collectors.joining("\n"));
     }
 }

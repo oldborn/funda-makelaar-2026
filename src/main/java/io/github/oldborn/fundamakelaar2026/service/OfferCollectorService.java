@@ -42,11 +42,11 @@ public class OfferCollectorService {
     protected static Map<String, Offer> extractOffersFromPage(AanbodPageDTO page){
         return page.objects().stream()
                 .filter(aanbodObject -> aanbodObject.makelaarId() != null)
-                .map(OfferCollectorService::aanBondObjectToOffer)
+                .map(OfferCollectorService::aanbodObjectToOffer)
                 .collect(Collectors.toMap(Offer::id, offer -> offer));
     }
 
-    protected static Offer aanBondObjectToOffer(AanbodObjectDTO aanbodObjectDTO){
+    protected static Offer aanbodObjectToOffer(AanbodObjectDTO aanbodObjectDTO){
         return new Offer(
                 aanbodObjectDTO.id(),
                 aanbodObjectDTO.makelaarId(),
