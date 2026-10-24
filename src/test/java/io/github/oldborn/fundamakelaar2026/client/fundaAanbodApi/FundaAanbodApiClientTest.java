@@ -12,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -34,7 +35,41 @@ class FundaAanbodApiClientTest {
     }
 
     @Test
-    public void fetchesAndParsesPageCorrectly(){
+    public void fetchPage_setsQueryParamsCorrectly_whenFilterIsNull(){
+        int page = new Random().nextInt(10);
+        int pageSize = new Random().nextInt(25);
+        stubFor(
+                get(urlPathEqualTo("/random-mock-api-key/"))
+                        .withQueryParam("type", equalTo("koop"))
+                        .withQueryParam("zo", equalTo("/randomCity/"))
+                        .withQueryParam("page", equalTo(String.valueOf(page)))
+                        .withQueryParam("pagesize", equalTo(String.valueOf(pageSize)))
+                        .willReturn(okJson(fixture))
+        );
+
+        AanbodPageDTO pageDTO = client.fetchPage(page, pageSize, "randomCity", null).block();
+
+        assertNotNull(pageDTO);
+    }
+
+    @Test
+    public void fetchPage_setsQueryParamsCorrectly_whenFilterIsGiven(){
+        stubFor(
+                get(urlPathEqualTo("/random-mock-api-key/"))
+                        .withQueryParam("type", equalTo("koop"))
+                        .withQueryParam("zo", equalTo("/randomCity/randomFilter/"))
+                        .withQueryParam("page", equalTo("1"))
+                        .withQueryParam("pagesize", equalTo("25"))
+                        .willReturn(okJson(fixture))
+        );
+
+        AanbodPageDTO pageDTO = client.fetchPage(1, 25, "randomCity", "randomFilter").block();
+
+        assertNotNull(pageDTO);
+    }
+
+    @Test
+    public void fetchPage_fetchesAndParsesPageCorrectly(){
         stubFor(
                 get(urlPathEqualTo("/random-mock-api-key/"))
                         .withQueryParam("type", equalTo("koop"))
@@ -44,7 +79,7 @@ class FundaAanbodApiClientTest {
                         .willReturn(okJson(fixture))
         );
 
-        AanbodPageDTO pageDTO = client.fetchPage(1, 25).block();
+        AanbodPageDTO pageDTO = client.fetchPage(1, 25, "amsterdam", null).block();
         AanbodPageDTO expected = new AanbodPageDTO(
                 List.of(
                         new AanbodObjectDTO(

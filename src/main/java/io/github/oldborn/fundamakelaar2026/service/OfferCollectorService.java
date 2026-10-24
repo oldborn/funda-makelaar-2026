@@ -25,14 +25,14 @@ public class OfferCollectorService {
     }
     
     public List<Offer> collectAllOffers(){
-        AanbodPageDTO firstPage = fundaAanbodApiClient.fetchPage(1, PAGE_SIZE).block();
+        AanbodPageDTO firstPage = fundaAanbodApiClient.fetchPage(1, PAGE_SIZE, "amsterdam", null).block();
         int totalPages = firstPage.paging().aantalPaginas();
 
         // using Map instead of List to avoid duplicated offers in between pages.
         Map<String, Offer> offers = new HashMap<>(firstPage.totaalAantalObjecten());
         offers.putAll(extractOffersFromPage(firstPage));
         for (int i = 2; i <= totalPages; i++) {
-            AanbodPageDTO page = fundaAanbodApiClient.fetchPage(i, PAGE_SIZE).block();
+            AanbodPageDTO page = fundaAanbodApiClient.fetchPage(i, PAGE_SIZE, "amsterdam", null).block();
             logger.info("Fetched page: {}/{} with number of offers: {}", i, totalPages, page.objects().size());
             offers.putAll(extractOffersFromPage(page));
         }

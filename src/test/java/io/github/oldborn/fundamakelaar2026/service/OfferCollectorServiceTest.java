@@ -38,8 +38,8 @@ class OfferCollectorServiceTest {
                 702
         );
 
-        when(fundaAanbodApiClient.fetchPage(1, 25)).thenReturn(Mono.just(firstPage));
-        when(fundaAanbodApiClient.fetchPage(2, 25)).thenReturn(Mono.just(secondPage));
+        when(fundaAanbodApiClient.fetchPage(1, 25, "amsterdam", null)).thenReturn(Mono.just(firstPage));
+        when(fundaAanbodApiClient.fetchPage(2, 25, "amsterdam", null)).thenReturn(Mono.just(secondPage));
 
         List<Offer> offers = offerCollectorService.collectAllOffers();
 

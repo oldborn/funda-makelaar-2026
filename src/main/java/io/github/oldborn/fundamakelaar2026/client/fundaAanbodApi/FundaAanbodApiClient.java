@@ -8,6 +8,7 @@ import io.github.resilience4j.reactor.ratelimiter.operator.RateLimiterOperator;
 import io.github.resilience4j.reactor.retry.RetryOperator;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
+import jakarta.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -83,11 +84,18 @@ public class FundaAanbodApiClient {
                 );
     }
 
-    public Mono<AanbodPageDTO> fetchPage(int page, int pageSize){
+    public Mono<AanbodPageDTO> fetchPage(
+            int page,
+            int pageSize,
+            String city,
+            @Nullable String filter
+    ){
+        String zo = filter == null ? String.format("/%s/", city) : String.format("/%s/%s/", city, filter);
+
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("type", "koop")
-                        .queryParam("zo", "/amsterdam/")
+                        .queryParam("zo", zo)
                         .queryParam("page", page)
                         .queryParam("pagesize", pageSize)
                         .build()
