@@ -23,9 +23,10 @@ public class FundaAanbodApiClient {
     private static final Logger logger = LoggerFactory.getLogger(FundaAanbodApiClient.class);
 
     private final WebClient webClient;
-
     private final RateLimiter rateLimiter;
     private final Retry retry;
+
+    private static final int TIMEOUT_IN_SECONDS = 5;
 
     public FundaAanbodApiClient(
             FundaAanbodApiClientConfig fundaAanbodApiClientConfig,
@@ -51,7 +52,7 @@ public class FundaAanbodApiClient {
                         event -> logger.warn(
                                 "attempt {}/{} failed, retry in {} seconds. cause: {}",
                                 event.getNumberOfRetryAttempts(),
-                                4,
+                                retry.getRetryConfig().getMaxAttempts(),
                                 event.getWaitInterval().toSeconds(),
                                 event.getLastThrowable().getMessage()
                         )
@@ -76,7 +77,7 @@ public class FundaAanbodApiClient {
                 )
                 .retrieve()
                 .bodyToMono(AanbodPageDTO.class)
-                .timeout(Duration.ofSeconds(2))
+                .timeout(Duration.ofSeconds(TIMEOUT_IN_SECONDS))
                 .transformDeferred(RateLimiterOperator.of(rateLimiter))
                 .transformDeferred(RetryOperator.of(retry));
     }

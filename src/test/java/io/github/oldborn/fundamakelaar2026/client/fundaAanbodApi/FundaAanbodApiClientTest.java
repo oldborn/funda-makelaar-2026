@@ -10,7 +10,6 @@ import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.retry.Retry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -35,8 +34,8 @@ class FundaAanbodApiClientTest {
         client = new FundaAanbodApiClient(
                 new FundaAanbodApiClientConfig(wireMockRuntimeInfo.getHttpBaseUrl(), API_KEY),
                 WebClient.builder(),
-                Mockito.mock(RateLimiter.class),
-                Mockito.mock(Retry.class)
+                RateLimiter.ofDefaults("test-limiter"),
+                Retry.ofDefaults("test-retry")
         );
     }
 
