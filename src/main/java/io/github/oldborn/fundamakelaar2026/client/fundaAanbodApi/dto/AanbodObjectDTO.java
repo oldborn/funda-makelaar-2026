@@ -20,7 +20,8 @@ public record AanbodObjectDTO(
         @JsonProperty("KoopprijsTot")
         Integer koopprijsTot,
         @JsonProperty("MakelaarId")
-        int makelaarId,
+        // TODO: makelaarId seems to be nullable although name is coming, handle this
+        Integer makelaarId,
         @JsonProperty("MakelaarNaam")
         String makelaarNaam,
         @JsonProperty("Postcode")

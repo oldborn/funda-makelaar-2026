@@ -25,18 +25,24 @@ public class OfferCollectorService {
     }
     
     public List<Offer> collectAllOffers(){
-        // TODO: add unit tests
         AanbodPageDTO firstPage = fundaAanbodApiClient.fetchPage(1, PAGE_SIZE).block();
         int totalPages = firstPage.paging().aantalPaginas();
 
         List<Offer> offers = new ArrayList<>(firstPage.totaalAantalObjecten());
-        offers.addAll(firstPage.objects().stream().map(OfferCollectorService::aanBondObjectToOffer).toList());
-        for (int i = 2; i < totalPages - 1; i++) {
+        offers.addAll(extractOffersFromPage(firstPage));
+        for (int i = 2; i <= totalPages; i++) {
             AanbodPageDTO page = fundaAanbodApiClient.fetchPage(i, PAGE_SIZE).block();
             logger.info("Fetched page: {}/{} with number of offers: {}", i, totalPages, page.objects().size());
-            offers.addAll(page.objects().stream().map(OfferCollectorService::aanBondObjectToOffer).toList());
+            offers.addAll(extractOffersFromPage(page));
         }
         return offers;
+    }
+
+    protected static List<Offer> extractOffersFromPage(AanbodPageDTO page){
+        return page.objects().stream()
+                .filter(aanbodObject -> aanbodObject.makelaarId() != null)
+                .map(OfferCollectorService::aanBondObjectToOffer)
+                .toList();
     }
 
     protected static Offer aanBondObjectToOffer(AanbodObjectDTO aanbodObjectDTO){

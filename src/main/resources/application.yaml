@@ -1,6 +1,9 @@
 spring:
   application:
     name: funda-makelaar-2026
+  shell:
+    interactive:
+      enabled: true
 
 funda-aanbod-api-client:
   api-key: ${FUNDA_AANBOD_API_KEY}

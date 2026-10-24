@@ -36,7 +36,7 @@ public class FundaAanbodApiClient {
                 "funda-api-rate-limiter",
                 RateLimiterConfig.custom()
                         .limitRefreshPeriod(Duration.ofSeconds(65))
-                        .limitForPeriod(10)
+                        .limitForPeriod(50)
                         .timeoutDuration(Duration.ofSeconds(67))
                         .build()
         );
