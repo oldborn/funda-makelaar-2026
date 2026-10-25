@@ -57,4 +57,4 @@ docker run --rm -e FUNDA_AANBOD_API_KEY="your_api_key_here" funda-makelaar top-r
 
 ## Final Words
 
-It was so much fun to build this project.
+It was so much fun to build this project. And I promise to Kevin to read Dungeon Crawler Carl regardless of the outcome.
