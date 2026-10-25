@@ -19,19 +19,34 @@ class RealtorRankingServiceTest {
                 new Offer("3", 101, "Realtor A"),
                 new Offer("4", 102, "Realtor B"),
                 new Offer("5", 102, "Realtor B"),
-                new Offer("6", 103, "Realtor C"),
-                new Offer("7", 103, "Realtor C"),
-                new Offer("8", 104, "Realtor D")
+                new Offer("8", 104, "Realtor C")
         );
 
-        List<Realtor> realtors = realtorRankingService.topRealtors(offers, 3);
+        List<Realtor> realtors = realtorRankingService.topRealtors(offers, 2);
 
-        assertEquals(3, realtors.size());
+        assertEquals(2, realtors.size());
 
         List<Realtor> expected = List.of(
                 new Realtor(101, "Realtor A", 3),
-                new Realtor(102, "Realtor B", 2),
-                new Realtor(103, "Realtor C", 2)
+                new Realtor(102, "Realtor B", 2)
+        );
+        assertEquals(expected, realtors);
+    }
+
+    @Test
+    public void topRealtors_shouldBreakTiesById_whenOfferCountsAreEqual(){
+        List<Offer> offers = List.of(
+                new Offer("2", 24648, "Realtor B"),
+                new Offer("1", 24605, "Realtor A")
+        );
+
+        List<Realtor> realtors = realtorRankingService.topRealtors(offers, 2);
+
+        assertEquals(2, realtors.size());
+
+        List<Realtor> expected = List.of(
+                new Realtor(24605, "Realtor A", 1),
+                new Realtor(24648, "Realtor B", 1)
         );
         assertEquals(expected, realtors);
     }
