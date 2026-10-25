@@ -2,10 +2,12 @@ package io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi;
 
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.config.FundaAanbodApiClientConfig;
 import io.github.oldborn.fundamakelaar2026.client.fundaAanbodApi.dto.AanbodPageDTO;
+import io.github.resilience4j.core.EventConsumer;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.reactor.ratelimiter.operator.RateLimiterOperator;
 import io.github.resilience4j.reactor.retry.RetryOperator;
 import io.github.resilience4j.retry.Retry;
+import io.github.resilience4j.retry.event.RetryOnRetryEvent;
 import jakarta.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -54,9 +57,20 @@ public class FundaAanbodApiClient {
                                 event.getNumberOfRetryAttempts(),
                                 retry.getRetryConfig().getMaxAttempts(),
                                 event.getWaitInterval().toSeconds(),
-                                event.getLastThrowable().getMessage()
+                                extractExceptionMessage(event.getLastThrowable())
                         )
                 );
+    }
+
+    private static String extractExceptionMessage(Throwable exception){
+        if (exception instanceof WebClientResponseException){
+            int statusCode = ((WebClientResponseException) exception).getStatusCode().value();
+            String statusText = ((WebClientResponseException) exception).getStatusText();
+            return String.format("HTTP Call failed with status code: %d status message: %s", statusCode, statusText);
+        }
+
+        // To avoid risk of logging full URL which contains API_KEY
+        return exception.getClass().getSimpleName();
     }
 
     public Mono<AanbodPageDTO> fetchPage(

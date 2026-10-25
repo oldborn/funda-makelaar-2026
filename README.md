@@ -76,8 +76,8 @@ It was so much fun to build this project. And I promise to Kevin to read Dungeon
 2026-10-25T12:00:30.626+01:00  INFO 221964 --- [funda-makelaar-2026] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2026-10-25T12:00:32.121+01:00  INFO 221964 --- [funda-makelaar-2026] [  restartedMain] i.g.o.f.FundaMakelaar2026Application     : Started FundaMakelaar2026Application in 2.026 seconds (process running for 2.769)
 shell:>top-realtors
-2026-10-25T12:00:41.615+01:00  WARN 221964 --- [funda-makelaar-2026] [ctor-http-nio-2] i.g.o.f.c.f.FundaAanbodApiClient         : attempt 1/4 failed, retry in 8 seconds. cause: 503 Service Unavailable from GET https://candidate-excercise.funda.io/feeds/Aanbod.svc/json/
-2026-10-25T12:01:36.524+01:00  WARN 221964 --- [funda-makelaar-2026] [ctor-http-nio-6] i.g.o.f.c.f.FundaAanbodApiClient         : attempt 1/4 failed, retry in 8 seconds. cause: 401 Unauthorized from GET https://candidate-excercise.funda.io/feeds/Aanbod.svc/json/
+2026-10-25T12:00:41.615+01:00  WARN 221964 --- [funda-makelaar-2026] [ctor-http-nio-2] i.g.o.f.c.f.FundaAanbodApiClient         : attempt 1/4 failed, retry in 8 seconds. cause: HTTP Call failed with status code: 503 status message: Service Unavailable
+2026-10-25T12:01:36.524+01:00  WARN 221964 --- [funda-makelaar-2026] [ctor-http-nio-6] i.g.o.f.c.f.FundaAanbodApiClient         : attempt 1/4 failed, retry in 8 seconds. cause: HTTP Call failed with status code: 401 status message: Unauthorized
 
 ┌────┬──────────┬────────────────────────────────────┬──────┐
 │Rank│Realtor ID│Realtor Name                        │Offers│
