@@ -15,9 +15,9 @@ public class ResilienceRateLimiterConfig {
     private final Integer timeoutDurationInSeconds;
 
     public ResilienceRateLimiterConfig(Integer limitRefreshPeriod, Integer limitForPeriod, Integer timeoutDurationInSeconds) {
-        this.limitRefreshPeriod = Optional.ofNullable(limitRefreshPeriod).orElse(65);
-        this.limitForPeriod = Optional.ofNullable(limitForPeriod).orElse(100);
-        this.timeoutDurationInSeconds = Optional.ofNullable(timeoutDurationInSeconds).orElse(67);
+        this.limitRefreshPeriod = Optional.ofNullable(limitRefreshPeriod).orElse(60);
+        this.limitForPeriod = Optional.ofNullable(limitForPeriod).orElse(90);
+        this.timeoutDurationInSeconds = Optional.ofNullable(timeoutDurationInSeconds).orElse(61);
     }
 
     @Bean("funda-rate-limiter")
