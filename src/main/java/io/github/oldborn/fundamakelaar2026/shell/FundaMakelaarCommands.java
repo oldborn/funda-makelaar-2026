@@ -5,6 +5,8 @@ import io.github.oldborn.fundamakelaar2026.service.RealtorRankingService;
 import io.github.oldborn.fundamakelaar2026.service.model.Offer;
 import io.github.oldborn.fundamakelaar2026.service.model.Realtor;
 import jakarta.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.shell.core.command.annotation.Command;
 import org.springframework.shell.core.command.annotation.CommandGroup;
 import org.springframework.shell.core.command.annotation.Option;
@@ -17,6 +19,7 @@ import java.util.List;
 @CommandGroup(name = "funda-makelaar", description = "commands to execute realtor ranking")
 public class FundaMakelaarCommands {
 
+    private static final Logger logger = LoggerFactory.getLogger(FundaMakelaarCommands.class);
     private final OfferCollectorService offerCollectorService;
     private final RealtorRankingService realtorRankingService;
 
@@ -25,7 +28,7 @@ public class FundaMakelaarCommands {
         this.realtorRankingService = realtorRankingService;
     }
 
-    @Command(name = "top-realtors", description = "used for testing collector service")
+    @Command(name = "top-realtors", description = "used for executing top-realtors with parameters")
     public String topRealtors(
             @Option(shortName = 'c', longName = "city", description = "city that is going to be searched", defaultValue = "amsterdam")
             String city,
@@ -34,9 +37,15 @@ public class FundaMakelaarCommands {
             @Option(shortName = 'n', longName = "topN", description = "top N of the realtors", defaultValue = "10")
             Integer topN
     ){
-        List<Offer> offers = offerCollectorService.collectAllOffers(city, filter);
-        List<Realtor> realtors = realtorRankingService.topRealtors(offers, topN);
-        return renderTable(realtors);
+        try {
+            List<Offer> offers = offerCollectorService.collectAllOffers(city, filter);
+            List<Realtor> realtors = realtorRankingService.topRealtors(offers, topN);
+            return renderTable(realtors);
+        }catch (RuntimeException exception){
+            // Wrap all Runtime exceptions, to not risk leaking API_KEY
+            logger.error("Command failed with exception: {}", exception.getClass().getSimpleName());
+            throw new RuntimeException("Command failed with exception: " + exception.getClass().getSimpleName());
+        }
     }
 
     private String renderTable(List<Realtor> realtors) {
