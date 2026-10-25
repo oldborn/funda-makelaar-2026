@@ -46,9 +46,9 @@ docker rmi -f funda-makelaar; docker build --no-cache -t funda-makelaar .
 #### Step 2: Run 
 - with Default Options (Amsterdam, Top 10)
 
-``
+```shell
     docker run --rm -e FUNDA_AANBOD_API_KEY="your_api_key_here" funda-makelaar
-``
+```
 
 - with custom parameters
 
