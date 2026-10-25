@@ -43,8 +43,10 @@ public class OfferCollectorService {
                         totalPages,
                         page.objects().size())
                 ).flatMapIterable(AanbodPageDTO::objects)
+                // makelaarId = null for some cases, filtering those
                 .filter(aanbodObjectDTO -> aanbodObjectDTO.makelaarId() != null)
                 .map(OfferCollectorService::aanbodObjectToOffer)
+                // Some offers might come in separate pages in some rare cases, distinct will solve that
                 .distinct(Offer::id)
                 .collectList()
                 .block();
