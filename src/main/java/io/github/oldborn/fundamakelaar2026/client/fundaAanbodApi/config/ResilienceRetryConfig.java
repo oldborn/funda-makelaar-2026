@@ -33,7 +33,7 @@ public class ResilienceRetryConfig {
         this.backOffMultiplier = Optional.ofNullable(backOffMultiplier).orElse(2);
     }
 
-    @Bean("funda-rate-retry")
+    @Bean("funda-retry")
     public Retry retry(){
         return Retry.of(
                 "funda-api-retry",
