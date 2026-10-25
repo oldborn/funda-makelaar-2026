@@ -24,7 +24,12 @@ public class RealtorRankingService {
                     String realtorName = realtorOffers.getFirst().realtorName();
 
                     return new Realtor(realtorId, realtorName, realtorOffers.size());
-                }).sorted(Comparator.comparingInt(Realtor::numberOfOffers).reversed())
+                }).sorted(
+                        Comparator.comparingInt(Realtor::numberOfOffers)
+                                .reversed()
+                                // tiebreaker in case numberOfOffers are equal to make outcome deterministic
+                                .thenComparingInt(Realtor::id)
+                )
                 .limit(topNRank)
                 .toList();
 

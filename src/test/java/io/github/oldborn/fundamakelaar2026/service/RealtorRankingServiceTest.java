@@ -19,16 +19,19 @@ class RealtorRankingServiceTest {
                 new Offer("3", 101, "Realtor A"),
                 new Offer("4", 102, "Realtor B"),
                 new Offer("5", 102, "Realtor B"),
-                new Offer("6", 103, "Realtor C")
+                new Offer("6", 103, "Realtor C"),
+                new Offer("7", 103, "Realtor C"),
+                new Offer("8", 104, "Realtor D")
         );
 
-        List<Realtor> realtors = realtorRankingService.topRealtors(offers, 2);
+        List<Realtor> realtors = realtorRankingService.topRealtors(offers, 3);
 
-        assertEquals(2, realtors.size());
+        assertEquals(3, realtors.size());
 
         List<Realtor> expected = List.of(
                 new Realtor(101, "Realtor A", 3),
-                new Realtor(102, "Realtor B", 2)
+                new Realtor(102, "Realtor B", 2),
+                new Realtor(103, "Realtor C", 2)
         );
         assertEquals(expected, realtors);
     }
