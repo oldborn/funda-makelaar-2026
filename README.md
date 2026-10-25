@@ -16,6 +16,15 @@ Given two requirement was to fetch top 10 realtors with most offers in Amsterdam
 - Docker for running without having JVM technologies such as; JDK and Maven
 - Wiremock, junit5F for testing
 
+## Design
+
+shell -> service -> client -> Funda Aanbond API
+- ``client.fundaanbondapi`` handles HTTP, RateLimiter, Retry mechanism, and has DTOs with actual Dutch namings
+- ``service`` 
+  - OfferCollectorService for handling pagination, parallelism, and converting Aanbod objects to Offer
+  - RealtorRankingService for counting and ranking the Realtors based on their number of Offers
+- ``shell`` presentation layer, it orchestrates two services and prints a table containing top Realtors
+
 ## Some remarks
 
 - Given the limit of 100 request per minute, parallel execution of requests doesn't add much value. But, Flux makes it extremely easy to do parallel execution. Therefore, I have made some parallelism with 5 concurrent calls.
