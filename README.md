@@ -21,13 +21,14 @@ Given two requirement was to fetch top 10 realtors with most offers in Amsterdam
 - Given the limit of 100 request per minute, parallel execution of requests doesn't add much value. But, Flux makes it extremely easy to do parallel execution. Therefore, I have made some parallelism with 5 concurrent calls.
 - Funda's API returns Unauthorized (401) instead of TooManyRequests (429) therefore added Retry for 401 as well.
 - Requirement was always return top 10 with /amsterdam/ or /amsterdam/tuin/ filter. But, I decided to make it parameterized. This design choice mainly enable writing slimmer and more manageable unit tests rather than making the challenge more complex.
+- The timer of the RateLimiter starts once it is created, that might lead some rate limiting exceptions. It shouldn't be a problem in non-interactive mode since the command executed immediately after initialization.
 
 ## AI Usage Disclaimer
 
-In this project, I have used AI for mainly debuggin/fixing purposes. Therefore, code is almost entirely human written.
+In this project, I have used AI for mainly debugging/fixing purposes. Therefore, code is almost entirely human written.
 With the exception of two places: 
 - ``private String renderTable(List<Realtor> realtors)`` to make the output prettier using ``TableModelBuilder``
-- ``Dockerfile`` which was not required but I thought it would be helpful for people who don't want to install JDK and Maven
+- ``Dockerfile`` which was not required, but I thought it would be helpful for people who don't want to install JDK and Maven
 
 ## How to run using Docker
 
